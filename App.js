@@ -1,9 +1,26 @@
 import { StatusBar } from "expo-status-bar";
-import { ImageBackground, StyleSheet, Text, View } from "react-native";
+import {
+  ImageBackground,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import HomeScreen from "./src/screens/HomeScreen";
+import { useState } from "react";
+import GameScreen from "./src/screens/GameScreen";
 
 export default function App() {
+  const [userEnteredValue, setUserEnteredValue] = useState(null);
+
+  let screenComponent = (
+    <HomeScreen setUserEnteredValue={setUserEnteredValue} />
+  );
+  if (userEnteredValue) {
+    screenComponent = <GameScreen />;
+  }
+
   return (
     <LinearGradient colors={["#4e0329", "#ddb52f"]} style={styles.container}>
       <ImageBackground
@@ -12,7 +29,7 @@ export default function App() {
         style={styles.backgroundImage}
         imageStyle={styles.backgroundImageItem}
       >
-        <HomeScreen />
+        <SafeAreaView style={styles.container}>{screenComponent}</SafeAreaView>
       </ImageBackground>
     </LinearGradient>
   );
@@ -26,6 +43,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   backgroundImageItem: {
-    opacity: 0.5,
+    opacity: 0.15,
   },
 });

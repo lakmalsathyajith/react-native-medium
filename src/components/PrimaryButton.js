@@ -1,13 +1,12 @@
 import { Text, View, StyleSheet, Pressable } from "react-native";
 
-const PrimaryButton = ({ children, onButtonPress }) => {
-  const onPress = () => {
-    console.log("------");
-    //onButtonPress()
+const PrimaryButton = ({ children, onPress }) => {
+  const onButtonPress = () => {
+    onPress();
   };
 
   return (
-    <Pressable onPress={onPress}>
+    <Pressable onPress={onButtonPress}>
       <View style={styles.container}>
         <Text style={styles.buttonText}>{children}</Text>
       </View>
@@ -22,11 +21,10 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 16,
     elevation: 2,
-    justifyContent: "center",
-    alignItems: "center",
   },
   buttonText: {
     color: "white",
+    textAlign: "center",
   },
 });
 

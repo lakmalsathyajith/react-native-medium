@@ -1,54 +1,78 @@
-import { View, Text, TextInput, StyleSheet } from "react-native";
+import { View, Text, TextInput, StyleSheet, Alert } from "react-native";
 import PrimaryButton from "../components/PrimaryButton";
+import { useState } from "react";
+import Title from "../components/Title";
+import Card from "../components/Card";
 
-const HomeScreen = () => {
+const HomeScreen = ({ setUserEnteredValue }) => {
+  const [enteredValue, setEnteredValue] = useState("");
+
+  const resetEnteredValue = () => {
+    setEnteredValue("");
+  };
+
+  const onConfirmValue = () => {
+    const enteredValueParsed = parseInt(enteredValue);
+    if (
+      enteredValueParsed === 0 ||
+      enteredValueParsed > 99 ||
+      isNaN(enteredValueParsed)
+    ) {
+      Alert.alert(
+        "Invalid Number!",
+        "The entered value is not valid. value should be between 0 - 99",
+        [{ text: "OK", style: "destructive", onPress: resetEnteredValue }]
+      );
+    } else {
+      setUserEnteredValue(enteredValue);
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <View>
-        <Text style={styles.mainHeading}>Guess My Number</Text>
-      </View>
-      <View style={styles.inputContainer}>
+      <Title>Guess My Number</Title>
+      <Card>
         <TextInput
           style={styles.numberInput}
           maxLength={2}
           keyboardType="number-pad"
+          value={enteredValue}
+          onChangeText={setEnteredValue}
         />
         <View style={styles.buttonContainer}>
           <View style={styles.buttonItemContainer}>
-            <PrimaryButton>Reset</PrimaryButton>
+            <PrimaryButton onPress={resetEnteredValue}>Reset</PrimaryButton>
           </View>
           <View style={styles.buttonItemContainer}>
-            <PrimaryButton>Confirm</PrimaryButton>
+            <PrimaryButton onPress={onConfirmValue}>Confirm</PrimaryButton>
           </View>
         </View>
-      </View>
+      </Card>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#4e0329",
-    color: "white",
-    borderRadius: 8,
-    padding: 20,
-    marginHorizontal: 20,
+    flex: 1,
     marginTop: 100,
-    elevation: 100,
-    shadowColor: "#72063c",
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 6,
-    shadowOpacity: 1,
-    justifyContent: "center",
-    alignItems: "center",
   },
   mainHeading: {
     paddingBottom: 20,
-    marginBottom: 20,
     fontSize: 24,
     color: "#ddb52f",
   },
   inputContainer: {
+    backgroundColor: "#4e0329",
+    color: "white",
+    borderRadius: 8,
+    padding: 16,
+    marginHorizontal: 24,
+    elevation: 4,
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 6,
+    shadowOpacity: 0.15,
     alignItems: "center",
   },
   buttonContainer: {
